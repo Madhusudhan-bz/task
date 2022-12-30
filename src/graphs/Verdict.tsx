@@ -28,7 +28,7 @@ export default function Verdict({data,name,doughnut,userHandle}:{data : any,name
         return <></>
       }
     
-      console.log(data, typeof data);
+      // console.log(data, typeof data);
       // const data02 = [
       //   { name: 'Group A', value: 2400 },
       //   { name: 'Group B', value: 4567 },

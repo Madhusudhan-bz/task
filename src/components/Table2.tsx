@@ -3,7 +3,7 @@ import React from 'react';
 
  const Table2 =({probInfo,probInfoSolved,userH} : {probInfo : any[],probInfoSolved : any[],userH:string})=> {
 
-    console.log(probInfoSolved);
+    // console.log(probInfoSolved);
     if(probInfo.length==0){
         return <></>
     }
@@ -67,14 +67,14 @@ const AverageAttempts = ({probInfo} : {probInfo : any[]})=>{
     for(let i of probInfo){
         s=s+i.value;
     }
-    console.log(s/probInfo.length);
+    // console.log(s/probInfo.length);
     return <></>;
 }
 
 const SolvedWithOne = ({probInfoSolved} : {probInfoSolved : any[]})=>{
     let count : number = 0;
     for(let i of probInfoSolved){
-        console.log(i);
+        // console.log(i);
         if(i.value === 1)
             count+=1;
     }

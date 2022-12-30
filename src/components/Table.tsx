@@ -6,6 +6,7 @@ export default function Table({data,userHandle} : {data : any,userHandle:string}
     if(!data){
         return <></>
     }
+    // console.log(data);
   return (
     <div className="cardV container">
         

@@ -6,6 +6,7 @@ import Result from "../components/Result";
 import BarDiagram from "../graphs/BarDiagram";
 import Table from "../components/Table";
 import VerdictBarDiagram from "../graphs/VerdictBarDiagram";
+import Table2 from "../components/Table2";
 // import ""
 
 export default function Home() {
@@ -19,6 +20,10 @@ export default function Home() {
   const [ratings,setRatings] = useState<any>();
   const [levels,setLevels] = useState<any>();
   const [contestInfo,setContestInfo] = useState<object>();
+  const [probInfo,setProbInfo] = useState<any[]>([]);
+  const [probInfoSolved,setProbInfoSolved] = useState<any[]>([]);
+
+
 
   const handleOnChange = (event : any)=>{
     setUserHandle(event.target.value);
@@ -59,6 +64,9 @@ export default function Home() {
       let tempTags : any=[];
       let tempRatings : any=[];
       let tempLevels : any=[];
+      let tempProbInfo : any = [];
+      let tempProbInfoSolved : any = [];
+
 
       for(let i of response.data.result){
         tempLang=[...tempLang,i.programmingLanguage]; 
@@ -66,6 +74,9 @@ export default function Home() {
         tempTags=[...tempTags,...i.problem.tags];
         tempRatings=[...tempRatings,i.problem.rating];
         tempLevels=[...tempLevels,i.problem.index];
+        tempProbInfo = [...tempProbInfo,i.contestId+i.problem.index];
+        if(i.verdict === "OK")
+        tempProbInfoSolved = [...tempProbInfoSolved,i.contestId+i.problem.index];
       }
 
      
@@ -76,12 +87,16 @@ export default function Home() {
       tempTags=fetchData(tempTags);
       tempRatings=fetchData(tempRatings);
       tempLevels=fetchData(tempLevels);
+      tempProbInfo = fetchData(tempProbInfo);
+      tempProbInfoSolved = fetchData(tempProbInfoSolved);
 
       setVerdictData(tempVerdict);
       setLang(tempLang);
       setTags(tempTags);
       setRatings(tempRatings);
       setLevels(tempLevels);
+      setProbInfo(tempProbInfo);
+      setProbInfoSolved(tempProbInfoSolved);
       // console.log(tempTags);
       // setLang(tp);
     })
@@ -98,11 +113,8 @@ export default function Home() {
     axios.get(`https://codeforces.com/api/user.rating?handle=${userHandle}`).then((res)=>{
       let contest={"number_of_contests":0,"bestRank":100000,"worstRank":0,"maxUp":0,"maxDown":10000}; 
       contest.number_of_contests=res.data.result.length;
-      // let mi=10000000,mx=0;
-      // let tp = new Array<number>();
+      
       for(let i of res.data.result){
-        // console.log(i);
-        // tp=[...tp,i.rank];
         if(i.rank<contest['bestRank']){
           contest['bestRank']=i.rank
         }
@@ -117,17 +129,14 @@ export default function Home() {
         if((i.newRating-i.oldRating) < contest['maxDown']){
           contest['maxDown']=(i.newRating-i.oldRating);
         }
-        // mi=Math.min(i.rank,mi);
-        // console.log(i.rank,mi,mx);
-        // mx=Math.min(Number(i.rank),mx);
-        // console.log(mi,mx);
+        
 
       }
-      // console.log(tp);
+
       
       
       setContestInfo(contest);
-      // contest.bestRank = 
+      
     })
     .catch((err)=>{
       console.log(err);
@@ -137,7 +146,7 @@ export default function Home() {
     })
   }
 
-  // console.log(contestInfo);
+  // console.log(probInfo);
   // console.log(tags);
   return (
 
@@ -198,11 +207,11 @@ export default function Home() {
             {/* <BarDiagram data={levels} name={`Problem levels of ${userHandle}`}/> */}
             
               <VerdictBarDiagram data={ratings} name={`Problem ratings of ${userHandle}`}/>
-              <VerdictBarDiagram data={levels} name={`Problem ratings of ${userHandle}`}/>
+              <VerdictBarDiagram data={levels} name={`Problem levels of ${userHandle}`}/>
             
              
             <Table data={contestInfo} userHandle={userHandle}/>
-            
+            <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} />
     </div>
   );
 }
