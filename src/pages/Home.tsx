@@ -5,10 +5,12 @@ import Verdict from "../graphs/Verdict";
 import Result from "../components/Result";
 import BarDiagram from "../graphs/BarDiagram";
 import Table from "../components/Table";
+import VerdictBarDiagram from "../graphs/VerdictBarDiagram";
 // import ""
 
 export default function Home() {
   const [userHandle, setUserHandle] = useState<string>("");
+  const [userH,setUserH] = useState<string>("");
   // const [statusData,setStatusData] = useState<any>({"status":null,"result":[]});
   const [loading,setLoading] = useState<Boolean>(false);
   const [verdictData,setVerdictData] = useState<any>(); // 
@@ -27,13 +29,12 @@ export default function Home() {
   
  // Fetching the data
   const fetchData=(data : any)=>{
-    data.shift();
-    // console.log(data);
+    
     data = data.reduce((acc:any, e:any) => acc.set(e, (acc.get(e) || 0) + 1), new Map()); 
-    data.delete({});
-    const temp=[{}];
+    // data.delete({});
+    const temp : any=[];
 
-    temp.shift();
+    // temp.shift();
     for(let [key,value] of data){
       // console.log(key,value);
       
@@ -51,12 +52,13 @@ export default function Home() {
     // console.log("clicked");
     axios.get(`https://codeforces.com/api/user.status?handle=${userHandle}`).then((response)=>{
       // console.log(response);
+      setUserH(response.data.result[0].author.members[0].handle)
       // setStatusData(response.data.result);
-      let tempLang = [{}];
-      let tempVerdict=[{}];  //
-      let tempTags=[{}];
-      let tempRatings=[{}];
-      let tempLevels=[{}];
+      let tempLang : any= [];
+      let tempVerdict : any=[];  //
+      let tempTags : any=[];
+      let tempRatings : any=[];
+      let tempLevels : any=[];
 
       for(let i of response.data.result){
         tempLang=[...tempLang,i.programmingLanguage]; 
@@ -66,9 +68,7 @@ export default function Home() {
         tempLevels=[...tempLevels,i.problem.index];
       }
 
-      // console.log(tempVerdict);
-      tempLevels.sort();
-      // tempRatings.sort();
+     
 
 
       tempLang=fetchData(tempLang);
@@ -171,12 +171,12 @@ export default function Home() {
           
           
            
-            <Verdict data={verdictData} name="Verdict" doughnut={false} userHandle={userHandle} />
+            <Verdict data={verdictData} name="Verdict" doughnut={false} userHandle={userH} />
              
           
           
           
-            <Verdict data={lang} name="Languages" doughnut={false} userHandle={userHandle}/>
+            <Verdict data={lang} name="Languages" doughnut={false} userHandle={userH}/>
              
           
           
@@ -184,20 +184,25 @@ export default function Home() {
         
           
           
-          <Verdict data={tags} name="Tags" doughnut={true} userHandle={userHandle}/>
+          <Verdict data={tags} name="Tags" doughnut={true} userHandle={userH}/>
              
           
           
           
          
-            <BarDiagram data={ratings} name={`Problem ratings of ${userHandle}`}/>
+            {/* <BarDiagram data={ratings} name={`Problem ratings of ${userH}`}/> */}
              
           
           
          
-            <BarDiagram data={levels} name={`Problem levels of ${userHandle}`}/>
+            {/* <BarDiagram data={levels} name={`Problem levels of ${userHandle}`}/> */}
+            
+              <VerdictBarDiagram data={ratings} name={`Problem ratings of ${userHandle}`}/>
+              <VerdictBarDiagram data={levels} name={`Problem ratings of ${userHandle}`}/>
+            
              
             <Table data={contestInfo} userHandle={userHandle}/>
+            
     </div>
   );
 }
