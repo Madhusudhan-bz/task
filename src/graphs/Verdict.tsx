@@ -4,8 +4,7 @@ import { PieChart, Pie,Tooltip, LabelList, Cell, ResponsiveContainer } from 'rec
 //{data} : {data : any[]} // {data}:{data : Array<{name : string,value : number}>}
 export default function Verdict({data,name,doughnut,userHandle}:{data : any,name:string,doughnut:boolean,userHandle:String}) {
   
-    // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042',"252323"];
-    // const [verdictData,setVerdictData] = useState<any>([{name : "WA",value:0},{name : "AC",value :0},{name : "TLE",value :0},{name : "RTE",value :0},{name : "CTE",value :0},{name : "SKIP",value :0}]);
+    
     const [help,setHelp] = useState<boolean>(false);
 
     
@@ -40,10 +39,10 @@ export default function Verdict({data,name,doughnut,userHandle}:{data : any,name
 
       // console.log(render.current);
   return (
-    <div className="card cardV m-3">
+    <div className="card cardV m-3 ">
     <div className='my-3'>
         <center><h5>{name} of {userHandle}</h5></center>
-        <PieChart width={500} height={400}>
+        <PieChart width={500} height={400} className="pie">
           <Pie
             dataKey="value"
             isAnimationActive={true}
@@ -65,11 +64,6 @@ export default function Verdict({data,name,doughnut,userHandle}:{data : any,name
           <Tooltip />
           
         </PieChart>
-      {/* <p>{
-      
-      verdictData.map((ele : any)=>{
-          console.log(ele);
-      })}</p> */}
     </div>
     </div>
   )

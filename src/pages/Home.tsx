@@ -5,9 +5,9 @@ import Verdict from "../graphs/Verdict";
 import Result from "../components/Result";
 import BarDiagram from "../graphs/BarDiagram";
 import Table from "../components/Table";
-import VerdictBarDiagram from "../graphs/VerdictBarDiagram";
 import Table2 from "../components/Table2";
-// import ""
+
+import VerdictBarDiagram from "../graphs/VerdictBarDiagram";
 
 export default function Home() {
   const [userHandle, setUserHandle] = useState<string>("");
@@ -56,8 +56,9 @@ export default function Home() {
     setLoading(true);
     // console.log("clicked");
     axios.get(`https://codeforces.com/api/user.status?handle=${userHandle}`).then((response)=>{
-      // console.log(response);
-      setUserH(response.data.result[0].author.members[0].handle)
+      console.log(response.data);
+      setUserH(response.data.result[0].author.members[0].handle);
+      // console.log(response.data.result[0].author.members[0].handle);
       // setStatusData(response.data.result);
       let tempLang : any= [];
       let tempVerdict : any=[];  //
@@ -211,7 +212,7 @@ export default function Home() {
             
              
             <Table data={contestInfo} userHandle={userHandle}/>
-            <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} />
+            {/* <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} /> */}
     </div>
   );
 }

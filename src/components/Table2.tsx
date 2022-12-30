@@ -1,9 +1,10 @@
 
 import React from 'react';
 
- const Table2 =({probInfo,probInfoSolved,userH} : {probInfo : any[],probInfoSolved : any[],userH:string})=> {
 
-    // console.log(probInfoSolved);
+
+ const Table2 =({probInfo,probInfoSolved,userH} : {probInfo : any[],probInfoSolved : any[],userH:string})=> {
+    
     if(probInfo.length==0){
         return <></>
     }
@@ -72,12 +73,16 @@ const AverageAttempts = ({probInfo} : {probInfo : any[]})=>{
 }
 
 const SolvedWithOne = ({probInfoSolved} : {probInfoSolved : any[]})=>{
+    // let tempProbInfo : any= new Set(probInfoSolved.reduce((acc,e)=>{acc.push(e.name)},[]));
+    // console.log(tempProbInfo);
+
     let count : number = 0;
     for(let i of probInfoSolved){
-        // console.log(i);
         if(i.value === 1)
             count+=1;
     }
     return <td scope='col'>{count}</td>
 }
+
+
 export default Table2;
