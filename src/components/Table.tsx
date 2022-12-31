@@ -46,6 +46,7 @@ export default function Table({data,userHandle} : {data : any,userHandle:string}
                 
             </tr>
             
+            
           </tbody>
         
       </table>

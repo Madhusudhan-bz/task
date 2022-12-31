@@ -8,6 +8,8 @@ import Table from "../components/Table";
 import Table2 from "../components/Table2";
 
 import VerdictBarDiagram from "../graphs/VerdictBarDiagram";
+import { convertLengthToPixels } from "victory-core/lib/victory-util/textsize";
+import Unsolved from "../components/Unsolved";
 
 export default function Home() {
   const [userHandle, setUserHandle] = useState<string>("");
@@ -20,8 +22,8 @@ export default function Home() {
   const [ratings,setRatings] = useState<any>();
   const [levels,setLevels] = useState<any>();
   const [contestInfo,setContestInfo] = useState<object>();
-  const [probInfo,setProbInfo] = useState<any[]>([]);
-  const [probInfoSolved,setProbInfoSolved] = useState<any[]>([]);
+  const [probInfo,setProbInfo] = useState<Map<string,number>>(new Map());
+  const [probInfoSolved,setProbInfoSolved] = useState<Map<string,number>>(new Map());
 
 
 
@@ -37,6 +39,7 @@ export default function Home() {
     
     data = data.reduce((acc:any, e:any) => acc.set(e, (acc.get(e) || 0) + 1), new Map()); 
     // data.delete({});
+    // console.log(data);
     const temp : any=[];
 
     // temp.shift();
@@ -56,7 +59,7 @@ export default function Home() {
     setLoading(true);
     // console.log("clicked");
     axios.get(`https://codeforces.com/api/user.status?handle=${userHandle}`).then((response)=>{
-      console.log(response.data);
+      // console.log(response.data);
       setUserH(response.data.result[0].author.members[0].handle);
       // console.log(response.data.result[0].author.members[0].handle);
       // setStatusData(response.data.result);
@@ -88,15 +91,18 @@ export default function Home() {
       tempTags=fetchData(tempTags);
       tempRatings=fetchData(tempRatings);
       tempLevels=fetchData(tempLevels);
-      tempProbInfo = fetchData(tempProbInfo);
-      tempProbInfoSolved = fetchData(tempProbInfoSolved);
-
+      tempProbInfo = tempProbInfo.reduce((acc:any, e:any) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+      // tempProbInfoSolved = fetchData(tempProbInfoSolved);
+      tempProbInfoSolved = tempProbInfoSolved.reduce((acc:any, e:any) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+    
+      // console.log(tempProbInfoSolved);
       setVerdictData(tempVerdict);
       setLang(tempLang);
       setTags(tempTags);
       setRatings(tempRatings);
       setLevels(tempLevels);
       setProbInfo(tempProbInfo);
+      // setProbInfoSolved(tempProbInfoSolved.reduce);
       setProbInfoSolved(tempProbInfoSolved);
       // console.log(tempTags);
       // setLang(tp);
@@ -149,6 +155,7 @@ export default function Home() {
 
   // console.log(probInfo);
   // console.log(tags);
+  // console.log(probInfoSolved);
   return (
 
     <div>
@@ -210,9 +217,12 @@ export default function Home() {
               <VerdictBarDiagram data={ratings} name={`Problem ratings of ${userHandle}`}/>
               <VerdictBarDiagram data={levels} name={`Problem levels of ${userHandle}`}/>
             
-             
-            <Table data={contestInfo} userHandle={userHandle}/>
-            <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} />
+            <div className="d-flex jusitify-content-center container">
+              <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} />
+              <Table data={contestInfo} userHandle={userHandle}/>
+
+            </div>
+            <Unsolved probInfo={probInfo} probInfoSolved={probInfoSolved}/>
     </div>
   );
 }
