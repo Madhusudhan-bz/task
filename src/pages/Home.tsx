@@ -10,6 +10,7 @@ import Table2 from "../components/Table2";
 import VerdictBarDiagram from "../graphs/VerdictBarDiagram";
 import { convertLengthToPixels } from "victory-core/lib/victory-util/textsize";
 import Unsolved from "../components/Unsolved";
+import Heat from "../graphs/Heat";
 
 export default function Home() {
   const [userHandle, setUserHandle] = useState<string>("");
@@ -200,8 +201,9 @@ export default function Home() {
         </div>
         
           
-          
-          <Verdict data={tags} name="Tags" doughnut={true} userHandle={userH}/>
+          <div className="d-flex justify-content-center">
+            <Verdict data={tags} name="Tags" doughnut={true} userHandle={userH}/>
+          </div>
              
           
           
@@ -223,6 +225,7 @@ export default function Home() {
 
             </div>
             <Unsolved probInfo={probInfo} probInfoSolved={probInfoSolved}/>
+            {/* <Heat /> */}
     </div>
   );
 }
