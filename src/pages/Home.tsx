@@ -212,7 +212,7 @@ export default function Home() {
             
              
             <Table data={contestInfo} userHandle={userHandle}/>
-            {/* <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} /> */}
+            <Table2 probInfo ={probInfo} probInfoSolved={probInfoSolved} userH = {userH} />
     </div>
   );
 }

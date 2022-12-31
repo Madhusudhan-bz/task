@@ -75,7 +75,7 @@ const AverageAttempts = ({probInfo} : {probInfo : any[]})=>{
 const SolvedWithOne = ({probInfoSolved} : {probInfoSolved : any[]})=>{
     // let tempProbInfo : any= new Set(probInfoSolved.reduce((acc,e)=>{acc.push(e.name)},[]));
     // console.log(tempProbInfo);
-
+    
     let count : number = 0;
     for(let i of probInfoSolved){
         if(i.value === 1)
